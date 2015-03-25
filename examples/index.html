@@ -16,8 +16,13 @@
 var WIDTH = 1200,
   HEIGHT = 600
 
+
+var SECOND = 1000
+  , MINUTE = SECOND * 60
+  , HOUR = MINUTE * 60
+
 // set some camera attributes
-var VIEW_ANGLE = 45,
+var VIEW_ANGLE = 30,
   ASPECT = WIDTH / HEIGHT,
   NEAR = 1,
   FAR = 10000
@@ -28,7 +33,7 @@ renderer.setClearColor( 0x000000, 0)
 
 
 var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
-camera.position.set(0, WIDTH, HEIGHT/2)
+camera.position.set(0, WIDTH/2, HEIGHT/2)
 camera.lookAt(new THREE.Vector3(0,0,0))
 
 var scene = new THREE.Scene()
@@ -41,18 +46,18 @@ document.getElementById('container').appendChild(renderer.domElement)
 
 // create a point light
 
-var lights = []
-lights[0] = new THREE.PointLight( 0xffffff, 1, 0 )
-lights[1] = new THREE.PointLight( 0xffffff, 1, 0 )
-lights[2] = new THREE.PointLight( 0xffffff, 1, 0 )
+// var lights = []
+// lights[0] = new THREE.PointLight( 0xffffff, 1, 0 )
+// lights[1] = new THREE.PointLight( 0xffffff, 1, 0 )
+// lights[2] = new THREE.PointLight( 0xffffff, 1, 0 )
 
-lights[0].position.set( 0, 200, 0 )
-lights[1].position.set( 100, 200, 100 )
-lights[2].position.set( -100, -200, -100 )
+// lights[0].position.set( 0, 100, 0 )
+// lights[1].position.set( 50, 100, 50 )
+// lights[2].position.set( -50, -100, -50 )
 
-scene.add( lights[0] )
-scene.add( lights[1] )
-scene.add( lights[2] )
+// scene.add( lights[0] )
+// scene.add( lights[1] )
+// scene.add( lights[2] )
 
 
 // var pointLight = new THREE.PointLight(0xffffff)
@@ -66,22 +71,21 @@ scene.add( lights[2] )
 // pointLight2.position.z = HEIGHT/2
 // scene.add(pointLight2)
 
-// pointLight = new THREE.PointLight(0xFFFFFF)
-// pointLight.position.x = -50
-// pointLight.position.y = -50
-// pointLight.position.z = -50
-// scene.add(pointLight)
+var pointLight = new THREE.PointLight(0xc0c0c0)
+pointLight.position.x = 200
+pointLight.position.y = 100
+pointLight.position.z = 0
+scene.add(pointLight)
 
-// var ambientLight = new THREE.AmbientLight(0x303030)
-// scene.add(ambientLight)
+var ambientLight = new THREE.AmbientLight(0x404040)
+scene.add(ambientLight)
 
-// hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.6 ); 
+// hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.6 );
 // scene.add(hemiLight)
 
-// dirLight = new THREE.DirectionalLight( 0xffffff, 1 )
-// dirLight.castShadow = true
-// dirLight.position.set(-20, 200, 50)
-// scene.add( dirLight )
+dirLight = new THREE.DirectionalLight( 0xc0c0c0, 1 )
+dirLight.position.set(0, 1, 0)
+scene.add( dirLight )
 
 
 
@@ -89,11 +93,14 @@ var BG_WIDTH = 52
 var BG_HEIGHT = 13
 
 var clock = []
-function printTime(d) {
+var endTime = new Date('Fri Mar 27 2015 10:00:00 GMT-0700 (PDT)').getTime()
+function updateTimer(d) {
   d = d ? new Date(d) : new Date()
-  var hours = d.getHours()
-    , minutes = d.getMinutes()
-    , seconds = d.getSeconds()
+  var delta = endTime - d.getTime()
+
+  var hours = Math.floor(delta / HOUR)
+    , minutes = Math.floor((delta % HOUR) / MINUTE)
+    , seconds = Math.floor((delta % MINUTE) / SECOND)
     , symbols
 
 
@@ -151,8 +158,8 @@ function position(obj, x, y, z) {
   var offY = - Lego.computePlateLength(BG_HEIGHT / 2)
 
   obj.position.y = Lego.computePlateDepth(z)
-  obj.position.x = Lego.computePlateLength(x) + offX + Lego.computePlateLength(obj.size.width) / 2 
-  obj.position.z = Lego.computePlateLength(y) + offY + Lego.computePlateLength(obj.size.height) / 2 
+  obj.position.x = Lego.computePlateLength(x) + offX + Lego.computePlateLength(obj.size.width) / 2
+  obj.position.z = Lego.computePlateLength(y) + offY + Lego.computePlateLength(obj.size.height) / 2
 }
 
 function createPlate(w, h, d, x, y, z) {
@@ -164,7 +171,7 @@ function createPlate(w, h, d, x, y, z) {
 function makeSymbol(s, offX, offY, offZ) {
   offX = offX || 0
   offY = offY || 0
-  offZ = offZ || 1
+  offZ = offZ || 3
   var depth = 1
   var assembly = new THREE.Object3D()
   switch (s) {
@@ -235,11 +242,11 @@ function makeSymbol(s, offX, offY, offZ) {
 }
 
 
-var background = new Lego.plate('black', BG_WIDTH, BG_HEIGHT, 1)
+var background = new Lego.plate('black', BG_WIDTH, BG_HEIGHT, 3)
 
 scene.add(background)
 
-setInterval(printTime, 500)
+setInterval(updateTimer, 250)
 
 
 renderer.render(scene, camera)

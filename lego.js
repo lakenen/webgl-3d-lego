@@ -1,4 +1,4 @@
-var STUD_WIDTH = 8
+var STUD_WIDTH = 6
 var STUD_SPACING = STUD_WIDTH / 1.5
 var PLATE_HEIGHT = STUD_SPACING
 var STUD_HEIGHT = PLATE_HEIGHT / 1.88
@@ -19,7 +19,7 @@ var Lego = {
 
 Lego.color=function(val){
     var codes={
-        black: 0x090a0b,
+        black: 0x191a1b,
         white: 0xfafafa
     }
     return codes[val];
@@ -42,7 +42,7 @@ Lego.plate=function(colorCode, w, h, d){
     var length = computePlateLength(h)
     var depth = computePlateDepth(d)
     var mesh=new THREE.Mesh(new THREE.BoxGeometry(width, depth, length), faceMaterial);
-    mesh.position.y=depth
+    mesh.position.y = depth/2
     mesh.matrixAutoUpdate = false;
     mesh.updateMatrix();
 
@@ -50,7 +50,7 @@ Lego.plate=function(colorCode, w, h, d){
 
     for(var i=0; i<w; i++){
         for(var j=0; j<h; j++){
-            stud.position.y=depth - STUD_HEIGHT / 2
+            stud.position.y=depth / 2 + STUD_HEIGHT / 2
             stud.position.x=STUD_WIDTH / 2 + STUD_PADDING + i * (STUD_WIDTH + STUD_SPACING) - width/2
             stud.position.z=STUD_WIDTH / 2 + STUD_PADDING + j * (STUD_WIDTH + STUD_SPACING) - length/2
 
