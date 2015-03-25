@@ -89,8 +89,8 @@ scene.add( dirLight )
 
 
 
-var BG_WIDTH = 52
-var BG_HEIGHT = 13
+var BG_WIDTH = 29
+var BG_HEIGHT = 7
 
 var clock = []
 var endTime = new Date('Fri Mar 27 2015 10:00:00 GMT-0700 (PDT)').getTime()
@@ -119,8 +119,8 @@ function updateTimer(d) {
     .concat(':')
     .concat(pad(seconds, '0').split(''))
 
-  var curX = 3
-    , curY = 2
+  var curX = 1
+    , curY = 1
   symbols.forEach(function (s, i) {
     var c = clock[i]
     if (!c) {
@@ -141,7 +141,7 @@ function updateTimer(d) {
       c.symbol = s
       c.block = addBlock(block)
     }
-    curX += (s === ':' ? 3 : 7)
+    curX += (s === ':' ? 2 : 4)
   })
 }
 
@@ -205,65 +205,64 @@ function makeSymbol(s, offX, offY, offZ) {
   switch (s) {
     case ':':
       assembly.add(createPlate(1, 1, depth, offX, offY + 1, offZ))
-      assembly.add(createPlate(1, 1, depth, offX, offY + 7, offZ))
+      assembly.add(createPlate(1, 1, depth, offX, offY + 3, offZ))
       break
     case '0':
-      assembly.add(createPlate(1, 9, depth, offX, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY, offZ))
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 8, offZ))
+      assembly.add(createPlate(1, 5, depth, offX, offY, offZ))
+      assembly.add(createPlate(2, 1, depth, offX + 1, offY, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
+      assembly.add(createPlate(2, 1, depth, offX + 1, offY + 4, offZ))
       break
     case '1':
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
       break
     case '2':
-      assembly.add(createPlate(5, 1, depth, offX, offY, offZ))
-      assembly.add(createPlate(1, 3, depth, offX + 4, offY + 1, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 4, offZ))
-      assembly.add(createPlate(1, 3, depth, offX, offY + 5, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 8, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 2, depth, offX + 2, offY, offZ))
+      assembly.add(createPlate(3, 1, depth, offX, offY + 2, offZ))
+      assembly.add(createPlate(1, 2, depth, offX, offY + 3, offZ))
+      assembly.add(createPlate(2, 1, depth, offX + 1, offY + 4, offZ))
       break
     case '3':
-      assembly.add(createPlate(5, 1, depth, offX, offY, offZ))
-      assembly.add(createPlate(1, 3, depth, offX + 4, offY + 1, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 4, offZ))
-      assembly.add(createPlate(1, 3, depth, offX + 4, offY + 5, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 8, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY + 2, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY + 4, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
       break
     case '4':
-      assembly.add(createPlate(1, 5, depth, offX, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 4, offZ))
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
+      assembly.add(createPlate(1, 3, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 2, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
       break
     case '5':
-      assembly.add(createPlate(5, 1, depth, offX, offY, offZ))
-      assembly.add(createPlate(1, 3, depth, offX, offY + 1, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 4, offZ))
-      assembly.add(createPlate(1, 3, depth, offX + 4, offY + 5, offZ))
-      assembly.add(createPlate(5, 1, depth, offX, offY + 8, offZ))
+      assembly.add(createPlate(2, 1, depth, offX + 1, offY, offZ))
+      assembly.add(createPlate(1, 2, depth, offX, offY, offZ))
+      assembly.add(createPlate(3, 1, depth, offX, offY + 2, offZ))
+      assembly.add(createPlate(1, 2, depth, offX + 2, offY + 3, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY + 4, offZ))
       break
     case '6':
-      assembly.add(createPlate(1, 9, depth, offX, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 4, offZ))
-      assembly.add(createPlate(1, 5, depth, offX + 4, offY + 4, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 8, offZ))
+      assembly.add(createPlate(1, 5, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 2, offZ))
+      assembly.add(createPlate(1, 3, depth, offX + 2, offY + 2, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 4, offZ))
       break
     case '7':
-      assembly.add(createPlate(4, 1, depth, offX, offY, offZ))
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
+      assembly.add(createPlate(2, 1, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
       break
     case '8':
-      assembly.add(createPlate(1, 9, depth, offX, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 4, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 8, offZ))
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
+      assembly.add(createPlate(1, 5, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 2, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 4, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
       break
     case '9':
-      assembly.add(createPlate(1, 9, depth, offX + 4, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY, offZ))
-      assembly.add(createPlate(3, 1, depth, offX + 1, offY + 4, offZ))
-      assembly.add(createPlate(1, 5, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 3, depth, offX, offY, offZ))
+      assembly.add(createPlate(1, 5, depth, offX + 2, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY, offZ))
+      assembly.add(createPlate(1, 1, depth, offX + 1, offY + 2, offZ))
       break
   }
   return assembly
