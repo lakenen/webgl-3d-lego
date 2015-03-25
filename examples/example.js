@@ -154,18 +154,23 @@ function addBlock(block) {
         , ry: 0
         , rz: 0
       }
-      thing.position.y += 50 + 100 * Math.random();
-      thing.position.z += 50 + 100 * Math.random();
-      var lastrx = 0
-      var tween = new TWEEN.Tween({ y: thing.position.y, z: thing.position.z, rx: Math.PI/2 })
-          .to(initial, 500 )
+      var y = 50 + 100 * Math.random()
+      var z = 50 + 100 * Math.random()
+      var rx = Math.PI/2 + Math.PI/2 * Math.random()
+      var tween1 = new TWEEN.Tween({ y: y, z: z })
+          .to(initial, 750 )
           .easing( TWEEN.Easing.Exponential.Out )
           .onUpdate( function () {
             thing.position.y = this.y
             thing.position.z = this.z
-            thing.rotateX(-lastrx)
+          } )
+          .start();
+      var tween2 = new TWEEN.Tween({ rx: rx })
+          .to(initial, 300 )
+          .easing( TWEEN.Easing.Exponential.Out )
+          .onUpdate( function () {
+            thing.rotateX(-thing.rotation._x)
             thing.rotateX(this.rx)
-            lastrx = this.rx
           } )
           .start();
     }
