@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js" type="text/javascript"></script>
+  <script src="http://sole.github.io/tween.js/build/tween.min.js"></script>
   <script src="../controls.js"></script>
   <script src="../lego.js" type="text/javascript"></script>
 </head>
@@ -129,7 +130,7 @@ function updateTimer(d) {
     if (c.symbol !== s) {
       if (c.block) {
         removeBlock(c.block)
-        c.symbols[c.symbol] = c.block.blockEl
+        c.symbols[c.symbol] = c.block
       }
 
       var block
@@ -147,6 +148,34 @@ function updateTimer(d) {
 
 function addBlock(block) {
   scene.add(block)
+
+  block.traverse(function (thing) {
+    var initial
+    if (thing instanceof Lego.Plate) {
+      initial = {
+          x: thing.position.x
+        , y: thing.position.y
+        , z: thing.position.z
+        , rx: 0
+        , ry: 0
+        , rz: 0
+      }
+      thing.position.y += 50 + 100 * Math.random();
+      thing.position.z += 50 + 100 * Math.random();
+      var lastrx = 0
+      var tween = new TWEEN.Tween({ y: thing.position.y, z: thing.position.z, rx: Math.PI/2 })
+          .to(initial, 500 )
+          .easing( TWEEN.Easing.Exponential.Out )
+          .onUpdate( function () {
+            thing.position.y = this.y
+            thing.position.z = this.z
+            thing.rotateX(-lastrx)
+            thing.rotateX(this.rx)
+            lastrx = this.rx
+          } )
+          .start();
+    }
+  })
   return block
 }
 function removeBlock(block) {
@@ -163,7 +192,7 @@ function position(obj, x, y, z) {
 }
 
 function createPlate(w, h, d, x, y, z) {
-  var plate = new Lego.plate('white', w, h, d)
+  var plate = new Lego.Plate('white', w, h, d)
   position(plate, x, y, z)
   return plate
 }
@@ -242,7 +271,7 @@ function makeSymbol(s, offX, offY, offZ) {
 }
 
 
-var background = new Lego.plate('black', BG_WIDTH, BG_HEIGHT, 3)
+var background = new Lego.Plate('black', BG_WIDTH, BG_HEIGHT, 3)
 
 scene.add(background)
 
@@ -266,12 +295,13 @@ controls.dynamicDampingFactor = 0.3
 animate()
 
 
-function animate() {
+function animate(time) {
   requestAnimationFrame( animate )
-  render()
+  render(time)
 }
 
-function render() {
+function render(time) {
+  TWEEN.update(time)
   controls.update()
   renderer.render( scene, camera )
 }

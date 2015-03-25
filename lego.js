@@ -1,4 +1,4 @@
-var STUD_WIDTH = 6
+var STUD_WIDTH = 10
 var STUD_SPACING = STUD_WIDTH / 1.5
 var PLATE_HEIGHT = STUD_SPACING
 var STUD_HEIGHT = PLATE_HEIGHT / 1.88
@@ -26,7 +26,7 @@ Lego.color=function(val){
 }
 //Basic  plate/Lego
 
-Lego.plate=function(colorCode, w, h, d){
+Lego.Plate = function(colorCode, w, h, d){
     w = w || 1;
     h = h || 1;
     d = d || 3;
@@ -66,5 +66,5 @@ Lego.plate=function(colorCode, w, h, d){
     this.add(mesh);
 }
 
-Lego.plate.prototype = new THREE.Object3D();
-Lego.plate.prototype.constructor = Lego.plate;
+Lego.Plate.prototype = new THREE.Object3D();
+Lego.Plate.prototype.constructor = Lego.Plate;
