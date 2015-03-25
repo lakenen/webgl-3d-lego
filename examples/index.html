@@ -12,10 +12,9 @@
 <div id="container"></div>
 
 <script>
-
 // set the scene size
-var WIDTH = 1200,
-  HEIGHT = 600
+var WIDTH = window.innerWidth,
+  HEIGHT = window.innerHeight
 
 
 var SECOND = 1000
@@ -305,6 +304,12 @@ function render(time) {
   controls.update()
   renderer.render( scene, camera )
 }
+
+window.addEventListener('resize', function () {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+})
 
 </script>
 </body>
