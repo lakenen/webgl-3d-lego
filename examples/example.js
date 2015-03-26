@@ -30,7 +30,7 @@ renderer.setClearColor( 0x000000, 0)
 
 
 var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR)
-camera.position.set(0, WIDTH/2, HEIGHT/2)
+camera.position.set(0, WIDTH, HEIGHT)
 camera.lookAt(new THREE.Vector3(0,0,0))
 
 var scene = new THREE.Scene()
@@ -285,6 +285,8 @@ function render(time) {
 function resize() {
   var w = window.innerWidth * 2
     , h = window.innerHeight * 2
+
+
   if (fullscreen) {
     camera.aspect = w / h
     camera.updateProjectionMatrix()
