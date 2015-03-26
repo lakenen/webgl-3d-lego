@@ -1,8 +1,10 @@
+var fullscreen = true
 
 // set the scene size
-var WIDTH = window.innerWidth,
-  HEIGHT = window.innerHeight
+var WIDTH = 1200,
+  HEIGHT = 300
 
+// required for iOS safari
 var updateTween = window.performance ?
   function highResTimer(time) {
       TWEEN.update(time)
@@ -19,8 +21,8 @@ var SECOND = 1000
 // set some camera attributes
 var VIEW_ANGLE = 30,
   ASPECT = WIDTH / HEIGHT,
-  NEAR = 1,
-  FAR = 10000
+  NEAR = 0.1,
+  FAR = 50000
 
 // create a WebGL renderer, camera and a scene
 var renderer = new THREE.WebGLRenderer({ alpha: true })
@@ -34,38 +36,17 @@ camera.lookAt(new THREE.Vector3(0,0,0))
 var scene = new THREE.Scene()
 scene.add(camera)
 
+var main = new THREE.Object3D
+main.rotateZ(0.1)
+// main.rotateX(0.1)
+scene.add(main)
+
 renderer.setSize(WIDTH, HEIGHT)
 
 // attach the render-supplied DOM element
 document.getElementById('container').appendChild(renderer.domElement)
 
 // create a point light
-
-// var lights = []
-// lights[0] = new THREE.PointLight( 0xffffff, 1, 0 )
-// lights[1] = new THREE.PointLight( 0xffffff, 1, 0 )
-// lights[2] = new THREE.PointLight( 0xffffff, 1, 0 )
-
-// lights[0].position.set( 0, 100, 0 )
-// lights[1].position.set( 50, 100, 50 )
-// lights[2].position.set( -50, -100, -50 )
-
-// scene.add( lights[0] )
-// scene.add( lights[1] )
-// scene.add( lights[2] )
-
-
-// var pointLight = new THREE.PointLight(0xffffff)
-// pointLight.position.x = -WIDTH
-// pointLight.position.y = 800
-// pointLight.position.z = -HEIGHT/2
-// scene.add(pointLight)
-// var pointLight2 = new THREE.PointLight(0xffffff)
-// pointLight2.position.x = WIDTH
-// pointLight2.position.y = 800
-// pointLight2.position.z = HEIGHT/2
-// scene.add(pointLight2)
-
 var pointLight = new THREE.PointLight(0xc0c0c0)
 pointLight.position.x = 200
 pointLight.position.y = 100
@@ -75,10 +56,7 @@ scene.add(pointLight)
 var ambientLight = new THREE.AmbientLight(0x404040)
 scene.add(ambientLight)
 
-// hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.6 );
-// scene.add(hemiLight)
-
-dirLight = new THREE.DirectionalLight( 0xc0c0c0, 1 )
+var dirLight = new THREE.DirectionalLight( 0xc0c0c0, 1 )
 dirLight.position.set(0, 1, 0)
 scene.add( dirLight )
 
@@ -141,7 +119,7 @@ function updateTimer(d) {
 }
 
 function addBlock(block) {
-  scene.add(block)
+  main.add(block)
 
   block.traverse(function (thing) {
     var initial
@@ -178,7 +156,7 @@ function addBlock(block) {
   return block
 }
 function removeBlock(block) {
-  scene.remove(block)
+  main.remove(block)
 }
 
 function position(obj, x, y, z) {
@@ -271,7 +249,7 @@ function makeSymbol(s, offX, offY, offZ) {
 
 var background = new Lego.Plate('black', BG_WIDTH, BG_HEIGHT, 3)
 
-scene.add(background)
+main.add(background)
 
 setInterval(updateTimer, 250)
 
@@ -304,8 +282,15 @@ function render(time) {
   renderer.render( scene, camera )
 }
 
-window.addEventListener('resize', function () {
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-})
+function resize() {
+  var w = window.innerWidth * 2
+    , h = window.innerHeight * 2
+  if (fullscreen) {
+    camera.aspect = w / h
+    camera.updateProjectionMatrix()
+    renderer.setSize(w, h)
+  }
+}
+
+window.addEventListener('resize', resize)
+resize()
