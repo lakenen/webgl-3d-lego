@@ -69,11 +69,16 @@ var clock = []
 var endTime = new Date('Fri Mar 27 2015 10:00:00 GMT-0700 (PDT)').getTime()
 function updateTimer(d) {
   d = d ? new Date(d) : new Date()
-  var delta = endTime - d.getTime()
+  // var delta = endTime - d.getTime()
 
-  var hours = Math.floor(delta / HOUR)
-    , minutes = Math.floor((delta % HOUR) / MINUTE)
-    , seconds = Math.floor((delta % MINUTE) / SECOND)
+  // var hours = Math.floor(delta / HOUR)
+  //   , minutes = Math.floor((delta % HOUR) / MINUTE)
+  //   , seconds = Math.floor((delta % MINUTE) / SECOND)
+  //   , symbols
+
+  var hours = d.getHours()
+    , minutes = d.getMinutes()
+    , seconds = d.getSeconds()
     , symbols
 
 
